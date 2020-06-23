@@ -35,7 +35,23 @@ public class Model {
 			graph.setEdgeWeight(graph.addEdge(c.getA1(), c.getA2()), c.getPeso());
 		}
 
-		System.out.println(this.graph.edgeSet());
+	}
+
+	public List<Couple> getConnessioni() {
+
+		if (this.graph == null) {
+			return null;
+		}
+
+		List<Couple> connec = new ArrayList<>();
+
+		for (DefaultWeightedEdge e : graph.edgeSet()) {
+			connec.add(new Couple(this.graph.getEdgeSource(e), this.graph.getEdgeTarget(e),
+					(int) this.graph.getEdgeWeight(e)));
+		}
+
+		return connec;
+
 	}
 
 }

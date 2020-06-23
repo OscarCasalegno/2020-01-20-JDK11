@@ -1,6 +1,6 @@
 package it.polito.tdp.artsmia.model;
 
-public class Couple {
+public class Couple implements Comparable<Couple> {
 
 	private Artist a1;
 	private Artist a2;
@@ -40,6 +40,11 @@ public class Couple {
 
 	public void setPeso(Integer peso) {
 		this.peso = peso;
+	}
+
+	@Override
+	public int compareTo(Couple other) {
+		return other.peso.compareTo(this.peso);
 	}
 
 }

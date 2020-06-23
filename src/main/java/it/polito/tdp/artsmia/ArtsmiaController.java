@@ -1,8 +1,10 @@
 package it.polito.tdp.artsmia;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.artsmia.model.Couple;
 import it.polito.tdp.artsmia.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,7 +44,20 @@ public class ArtsmiaController {
 	@FXML
 	void doArtistiConnessi(ActionEvent event) {
 		txtResult.clear();
-		txtResult.appendText("Calcola artisti connessi");
+		List<Couple> co = this.model.getConnessioni();
+		if (co == null) {
+			this.txtResult.appendText("Genera il grafo");
+			return;
+		}
+		if (co.isEmpty()) {
+			this.txtResult.appendText("Nessuna connessione trovata");
+			return;
+		}
+		co.sort(null);
+		for (Couple c : co) {
+			this.txtResult.appendText(
+					String.format("%s - %s : %d \n", c.getA1().getName(), c.getA2().getName(), c.getPeso()));
+		}
 	}
 
 	@FXML
