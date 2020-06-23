@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.artsmia.model.Artist;
 import it.polito.tdp.artsmia.model.Couple;
 import it.polito.tdp.artsmia.model.Model;
 import javafx.event.ActionEvent;
@@ -72,6 +73,21 @@ public class ArtsmiaController {
 		}
 		if (!this.model.isPresente(id)) {
 			this.txtResult.appendText("Artista non presente");
+			return;
+		}
+
+		this.model.calcolaPercorso(id);
+
+		if (this.model.getBestPercorso().size() == 1) {
+			this.txtResult.appendText("nessun percorso trovato");
+		} else {
+			this.txtResult.appendText("Peso per miglior percorso: " + this.model.getBestPeso() + "\n");
+			this.txtResult.appendText("lunghezza miglior percorso: " + this.model.getBestPercorso().size() + "\n");
+			this.txtResult.appendText("Autori coinvolti: \n");
+			for (Artist a : this.model.getBestPercorso()) {
+				this.txtResult.appendText(a.toString() + "\n");
+			}
+
 		}
 
 	}
