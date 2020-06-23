@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.tdp.artsmia.model.ArtObject;
+import it.polito.tdp.artsmia.model.Artist;
 import it.polito.tdp.artsmia.model.Exhibition;
 
 public class ArtsmiaDAO {
@@ -86,4 +87,25 @@ public class ArtsmiaDAO {
 		}
 	}
 
+	public static List<Artist> listArtistsByRole(String role) {
+		String sql = "SELECT DISTINCT ar.artist_id, name " + "FROM artists AS ar, authorship AS au "
+				+ "WHERE ar.artist_id=au.artist_id AND au.role= ?";
+		List<Artist> result = new ArrayList<>();
+		Connection conn = DBConnect.getConnection();
+
+		try {
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setString(1, role);
+			ResultSet res = st.executeQuery();
+			while (res.next()) {
+				result.add(new Artist(res.getInt("artist_id"), res.getString("name")));
+			}
+			conn.close();
+			return result;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
