@@ -1,6 +1,9 @@
 package it.polito.tdp.artsmia.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
@@ -12,6 +15,7 @@ import it.polito.tdp.artsmia.db.ArtsmiaDAO;
 public class Model {
 
 	Graph<Artist, DefaultWeightedEdge> graph;
+	Map<Integer, Artist> idMapAutori;
 
 	public List<String> getRuoli() {
 		return ArtsmiaDAO.listAllRoles();
@@ -20,11 +24,18 @@ public class Model {
 	public void creaGrafo(String role) {
 
 		this.graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
+		idMapAutori = new HashMap<>();
+		ArtsmiaDAO.listArtistsByRole(idMapAutori, role);
 
-		Graphs.addAllVertices(this.graph, ArtsmiaDAO.listArtistsByRole(role));
+		Graphs.addAllVertices(this.graph, new ArrayList<Artist>(this.idMapAutori.values()));
 
-		System.out.println(this.graph.vertexSet());
+		List<Couple> connec = ArtsmiaDAO.getConnectionsByRole(idMapAutori, role);
 
+		for (Couple c : connec) {
+			graph.setEdgeWeight(graph.addEdge(c.getA1(), c.getA2()), c.getPeso());
+		}
+
+		System.out.println(this.graph.edgeSet());
 	}
 
 }

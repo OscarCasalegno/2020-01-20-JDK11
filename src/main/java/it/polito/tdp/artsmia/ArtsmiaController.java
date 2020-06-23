@@ -60,7 +60,6 @@ public class ArtsmiaController {
 			return;
 		}
 		this.model.creaGrafo(role);
-		;
 	}
 
 	public void setModel(Model model) {
