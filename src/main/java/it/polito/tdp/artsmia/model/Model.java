@@ -54,4 +54,9 @@ public class Model {
 
 	}
 
+	public boolean isPresente(Integer id) {
+		return this.idMapAutori.containsKey(id);
+
+	}
+
 }

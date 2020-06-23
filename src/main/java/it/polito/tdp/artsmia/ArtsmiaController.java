@@ -63,7 +63,17 @@ public class ArtsmiaController {
 	@FXML
 	void doCalcolaPercorso(ActionEvent event) {
 		txtResult.clear();
-		txtResult.appendText("Calcola percorso");
+		Integer id = null;
+		try {
+			id = Integer.parseInt(this.txtArtista.getText());
+		} catch (NumberFormatException e) {
+			this.txtResult.appendText("Inserire un id valido");
+			return;
+		}
+		if (!this.model.isPresente(id)) {
+			this.txtResult.appendText("Artista non presente");
+		}
+
 	}
 
 	@FXML
